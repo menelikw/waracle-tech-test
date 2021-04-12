@@ -1,15 +1,17 @@
 import React from 'react';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { ProductListing } from './components/product-listing/ProductListing'
+import { ApolloProvider, ApolloClient, InMemoryCache, ApolloLink } from '@apollo/client';
+import { onError } from "@apollo/client/link/error";
+import { createUploadLink } from 'apollo-upload-client';
+import { ImageListing } from './pages/image-listing/ImageListing'
 import {
     BrowserRouter as Router,
     Switch,
     Route
-} from "react-router-dom";
+} from 'react-router-dom'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache()
+    link: new createUploadLink({ uri: 'http://localhost:4000/graphql'}),
+    cache: new InMemoryCache()
 });
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
           <Router>
               <Switch>
                   <Route path="/" exact={true}>
-                      <ProductListing />
+                      <ImageListing />
                   </Route>
               </Switch>
           </Router>
